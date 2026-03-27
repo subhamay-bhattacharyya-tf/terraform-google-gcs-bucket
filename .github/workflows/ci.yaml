@@ -69,7 +69,11 @@ jobs:
     strategy:
       matrix:
         example:
-          - examples/bucket/basic
+          - examples/basic
+          - examples/website
+          - examples/lifecycle
+          - examples/autoclass
+          - examples/versioning
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -134,10 +138,58 @@ jobs:
         run: |
           set -o pipefail
           go test -v -timeout 30m -run TestGCSBucketBasic \
-            ./gcs_bucket_basic_test.go ./helpers_test.go 2>&1 | tee test_output.txt
+            ./gcs_bucket_basic_test.go ./helpers_test.go 2>&1 | tee test_basic.txt
           echo "## GCS Bucket Basic Test Results" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat test_output.txt >> $GITHUB_STEP_SUMMARY
+          cat test_basic.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        working-directory: test
+
+      - name: Run Terratest - GCS Bucket Lifecycle
+        id: gcs-bucket-lifecycle-test
+        run: |
+          set -o pipefail
+          go test -v -timeout 30m -run TestGCSBucketLifecycle \
+            ./gcs_bucket_lifecycle_test.go ./helpers_test.go 2>&1 | tee test_lifecycle.txt
+          echo "## GCS Bucket Lifecycle Test Results" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat test_lifecycle.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        working-directory: test
+
+      - name: Run Terratest - GCS Bucket Website
+        id: gcs-bucket-website-test
+        run: |
+          set -o pipefail
+          go test -v -timeout 30m -run TestGCSBucketWebsite \
+            ./gcs_bucket_website_test.go ./helpers_test.go 2>&1 | tee test_website.txt
+          echo "## GCS Bucket Website Test Results" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat test_website.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        working-directory: test
+
+      - name: Run Terratest - GCS Bucket Autoclass
+        id: gcs-bucket-autoclass-test
+        run: |
+          set -o pipefail
+          go test -v -timeout 30m -run TestGCSBucketAutoclass \
+            ./gcs_bucket_autoclass_test.go ./helpers_test.go 2>&1 | tee test_autoclass.txt
+          echo "## GCS Bucket Autoclass Test Results" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat test_autoclass.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        working-directory: test
+
+      - name: Run Terratest - GCS Bucket Versioning
+        id: gcs-bucket-versioning-test
+        run: |
+          set -o pipefail
+          go test -v -timeout 30m -run TestGCSBucketVersioning \
+            ./gcs_bucket_versioning_test.go ./helpers_test.go 2>&1 | tee test_versioning.txt
+          echo "## GCS Bucket Versioning Test Results" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat test_versioning.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
         working-directory: test
 
@@ -208,4 +260,4 @@ jobs:
             @semantic-release/git@10.0.1
             conventional-changelog-conventionalcommits@9.1.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

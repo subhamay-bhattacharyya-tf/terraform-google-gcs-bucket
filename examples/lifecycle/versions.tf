@@ -1,6 +1,5 @@
-# -- examples/bucket/basic/versions.tf (Example)
 # ============================================================================
-# Example: Basic GCS Bucket - Version Requirements
+# Example: GCS Bucket - Lifecycle Rules - Version Requirements
 # ============================================================================
 
 terraform {

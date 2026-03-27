@@ -1,4 +1,4 @@
-module github.com/subhamay-bhattacharyya-tf/terraform-google-module-template/test
+module github.com/subhamay-bhattacharyya-tf/terraform-google-gcs-bucket/test
 
 go 1.21
 

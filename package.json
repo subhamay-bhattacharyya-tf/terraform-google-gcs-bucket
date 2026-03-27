@@ -1,5 +1,5 @@
 {
-    "name": "terraform-google-module-template",
+    "name": "terraform-google-gcs-bucket",
     "version": "0.0.0",
     "description": "Terraform module for creating and managing a Google Cloud Storage bucket with Semantic Release support.",
     "license": "MIT",

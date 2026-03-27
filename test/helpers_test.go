@@ -3,14 +3,44 @@ package test
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strings"
 	"testing"
 
 	"cloud.google.com/go/storage"
+	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/api/iterator"
 )
+
+// Shared test constants.
+const (
+	testProjectCode = "tt"
+	testEnvironment = "dev"
+	testLocation    = "US"
+	testRegion      = "us-central1"
+)
+
+// expectedBucketName returns the deterministic bucket name for a given base name.
+func expectedBucketName(baseName string) string {
+	return fmt.Sprintf("%s-%s-%s-%s", testProjectCode, baseName, strings.ToLower(testLocation), testEnvironment)
+}
+
+// rootModuleOptions builds Terraform options pointing at the root module.
+func rootModuleOptions(t *testing.T, gcsConfig map[string]interface{}) *terraform.Options {
+	t.Helper()
+	return &terraform.Options{
+		TerraformDir: "..",
+		NoColor:      true,
+		Vars: map[string]interface{}{
+			"environment":  testEnvironment,
+			"project_code": testProjectCode,
+			"region":       testRegion,
+			"gcs_config":   gcsConfig,
+		},
+	}
+}
 
 // mustEnv retrieves a required environment variable, failing the test if absent.
 func mustEnv(t *testing.T, key string) string {

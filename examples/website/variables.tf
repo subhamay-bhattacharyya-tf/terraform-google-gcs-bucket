@@ -1,12 +1,17 @@
-# -- examples/bucket/basic/variables.tf (Example)
 # ============================================================================
-# Example: Basic GCS Bucket - Variables
+# Example: GCS Bucket - Static Website Hosting - Variables
 # ============================================================================
 
-variable "bucket_name" {
-  description = "Name of the GCS bucket."
+variable "environment" {
+  description = "Deployment environment (dev, test, prod)."
   type        = string
-  default     = "my-portfolio-bucket"
+  default     = "dev"
+}
+
+variable "project_code" {
+  description = "Short identifier used for resource naming standardization."
+  type        = string
+  default     = "portfolio"
 }
 
 variable "project_id" {
@@ -19,10 +24,4 @@ variable "region" {
   description = "GCP region."
   type        = string
   default     = "us-central1"
-}
-
-variable "environment" {
-  description = "Environment label value."
-  type        = string
-  default     = "dev"
 }

@@ -2,6 +2,7 @@
 name: scaffold-terraform
 description: Generate complete Terraform Google Module for provisioning a GCS bucket with the given specifications
 disable-model-invocation: true
+argument-hint: "[region] [project]"
 ---
 
 Generate a complete Terraform Google Module for provisioning a GCS bucket with the given specifications:

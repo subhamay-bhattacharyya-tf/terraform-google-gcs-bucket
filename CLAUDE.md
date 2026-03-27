@@ -74,8 +74,3 @@ Follows **Conventional Commits** — semantic-release uses this to determine the
 - `chore:`, `docs:`, `refactor:`, etc. → no release
 - Breaking changes via `BREAKING CHANGE:` footer → major bump
 
-## Known inconsistencies (leftover from template)
-
-- `README.md` describes a GCP project-hierarchy module — it is stale and does not reflect this module.
-- `test/helpers_test.go` contains AWS S3 helpers; `test/go.mod` references `terraform-aws-s3`. These are unused by the GCS test and should be replaced with GCS-specific helpers when adding new tests.
-- `install-tools.sh` includes AWS CLI installation; not needed for a GCP-only module.

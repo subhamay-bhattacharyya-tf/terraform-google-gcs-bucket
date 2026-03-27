@@ -1,6 +1,5 @@
-# -- examples/bucket/basic/outputs.tf (Example)
 # ============================================================================
-# Example: Basic GCS Bucket - Outputs
+# Example: GCS Bucket - Static Website Hosting - Outputs
 # ============================================================================
 
 output "bucket_id" {

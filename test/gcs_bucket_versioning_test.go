@@ -11,20 +11,19 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// TestGCSBucketBasic tests creating a basic GCS bucket with no optional features.
-func TestGCSBucketBasic(t *testing.T) {
+// TestGCSBucketVersioning tests a bucket with object versioning enabled.
+func TestGCSBucketVersioning(t *testing.T) {
 	t.Parallel()
 
 	unique := strings.ToLower(random.UniqueId())
-	baseName := fmt.Sprintf("gcs-basic-%s", unique)
-	projectID := mustEnv(t, "GOOGLE_CLOUD_PROJECT")
+	baseName := fmt.Sprintf("gcs-ver-%s", unique)
 
 	tfOptions := rootModuleOptions(t, map[string]interface{}{
 		"base_name":     baseName,
 		"location":      testLocation,
 		"force_destroy": true,
 		"storage_class": "STANDARD",
-		"versioning":    map[string]interface{}{"enabled": false},
+		"versioning":    map[string]interface{}{"enabled": true},
 	})
 
 	defer terraform.Destroy(t, tfOptions)
@@ -32,6 +31,8 @@ func TestGCSBucketBasic(t *testing.T) {
 	time.Sleep(5 * time.Second)
 
 	require.Equal(t, expectedBucketName(baseName), terraform.Output(t, tfOptions, "bucket_name"))
-	require.Equal(t, projectID, terraform.Output(t, tfOptions, "bucket_project"))
-	require.Equal(t, testLocation, terraform.Output(t, tfOptions, "bucket_location"))
+
+	client := newGCSClient(t)
+	attrs := fetchBucketAttrs(t, client, expectedBucketName(baseName))
+	require.True(t, attrs.VersioningEnabled)
 }

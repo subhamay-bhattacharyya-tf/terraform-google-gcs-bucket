@@ -11,13 +11,12 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// TestGCSBucketBasic tests creating a basic GCS bucket with no optional features.
-func TestGCSBucketBasic(t *testing.T) {
+// TestGCSBucketWebsite tests a bucket configured for static website hosting with CORS.
+func TestGCSBucketWebsite(t *testing.T) {
 	t.Parallel()
 
 	unique := strings.ToLower(random.UniqueId())
-	baseName := fmt.Sprintf("gcs-basic-%s", unique)
-	projectID := mustEnv(t, "GOOGLE_CLOUD_PROJECT")
+	baseName := fmt.Sprintf("gcs-web-%s", unique)
 
 	tfOptions := rootModuleOptions(t, map[string]interface{}{
 		"base_name":     baseName,
@@ -25,6 +24,18 @@ func TestGCSBucketBasic(t *testing.T) {
 		"force_destroy": true,
 		"storage_class": "STANDARD",
 		"versioning":    map[string]interface{}{"enabled": false},
+		"website": map[string]interface{}{
+			"main_page_suffix": "index.html",
+			"not_found_page":   "404.html",
+		},
+		"cors": map[string]interface{}{
+			"allow_get": map[string]interface{}{
+				"origin":          []string{"https://example.com"},
+				"method":          []string{"GET", "HEAD"},
+				"response_header": []string{"Content-Type"},
+				"max_age_seconds": 3600,
+			},
+		},
 	})
 
 	defer terraform.Destroy(t, tfOptions)
@@ -32,6 +43,7 @@ func TestGCSBucketBasic(t *testing.T) {
 	time.Sleep(5 * time.Second)
 
 	require.Equal(t, expectedBucketName(baseName), terraform.Output(t, tfOptions, "bucket_name"))
-	require.Equal(t, projectID, terraform.Output(t, tfOptions, "bucket_project"))
-	require.Equal(t, testLocation, terraform.Output(t, tfOptions, "bucket_location"))
+
+	client := newGCSClient(t)
+	require.True(t, bucketExists(t, client, expectedBucketName(baseName)))
 }

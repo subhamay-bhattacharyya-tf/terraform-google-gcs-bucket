@@ -11,20 +11,25 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// TestGCSBucketBasic tests creating a basic GCS bucket with no optional features.
-func TestGCSBucketBasic(t *testing.T) {
+// TestGCSBucketLifecycle tests a bucket with lifecycle transition and expiry rules.
+func TestGCSBucketLifecycle(t *testing.T) {
 	t.Parallel()
 
 	unique := strings.ToLower(random.UniqueId())
-	baseName := fmt.Sprintf("gcs-basic-%s", unique)
-	projectID := mustEnv(t, "GOOGLE_CLOUD_PROJECT")
+	baseName := fmt.Sprintf("gcs-lc-%s", unique)
 
 	tfOptions := rootModuleOptions(t, map[string]interface{}{
 		"base_name":     baseName,
 		"location":      testLocation,
 		"force_destroy": true,
 		"storage_class": "STANDARD",
-		"versioning":    map[string]interface{}{"enabled": false},
+		"versioning":    map[string]interface{}{"enabled": true},
+		"lifecycle_rule": []interface{}{
+			map[string]interface{}{
+				"action":    map[string]interface{}{"type": "Delete"},
+				"condition": map[string]interface{}{"age": 365},
+			},
+		},
 	})
 
 	defer terraform.Destroy(t, tfOptions)
@@ -32,6 +37,9 @@ func TestGCSBucketBasic(t *testing.T) {
 	time.Sleep(5 * time.Second)
 
 	require.Equal(t, expectedBucketName(baseName), terraform.Output(t, tfOptions, "bucket_name"))
-	require.Equal(t, projectID, terraform.Output(t, tfOptions, "bucket_project"))
-	require.Equal(t, testLocation, terraform.Output(t, tfOptions, "bucket_location"))
+
+	client := newGCSClient(t)
+	attrs := fetchBucketAttrs(t, client, expectedBucketName(baseName))
+	require.Len(t, attrs.Lifecycle.Rules, 1)
+	require.Equal(t, "Delete", attrs.Lifecycle.Rules[0].Action.Type)
 }

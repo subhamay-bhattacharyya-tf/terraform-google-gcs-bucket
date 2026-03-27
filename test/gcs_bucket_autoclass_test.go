@@ -11,13 +11,12 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// TestGCSBucketBasic tests creating a basic GCS bucket with no optional features.
-func TestGCSBucketBasic(t *testing.T) {
+// TestGCSBucketAutoclass tests a bucket with Autoclass storage management enabled.
+func TestGCSBucketAutoclass(t *testing.T) {
 	t.Parallel()
 
 	unique := strings.ToLower(random.UniqueId())
-	baseName := fmt.Sprintf("gcs-basic-%s", unique)
-	projectID := mustEnv(t, "GOOGLE_CLOUD_PROJECT")
+	baseName := fmt.Sprintf("gcs-ac-%s", unique)
 
 	tfOptions := rootModuleOptions(t, map[string]interface{}{
 		"base_name":     baseName,
@@ -25,6 +24,10 @@ func TestGCSBucketBasic(t *testing.T) {
 		"force_destroy": true,
 		"storage_class": "STANDARD",
 		"versioning":    map[string]interface{}{"enabled": false},
+		"autoclass": map[string]interface{}{
+			"enabled":                true,
+			"terminal_storage_class": "ARCHIVE",
+		},
 	})
 
 	defer terraform.Destroy(t, tfOptions)
@@ -32,6 +35,8 @@ func TestGCSBucketBasic(t *testing.T) {
 	time.Sleep(5 * time.Second)
 
 	require.Equal(t, expectedBucketName(baseName), terraform.Output(t, tfOptions, "bucket_name"))
-	require.Equal(t, projectID, terraform.Output(t, tfOptions, "bucket_project"))
-	require.Equal(t, testLocation, terraform.Output(t, tfOptions, "bucket_location"))
+
+	client := newGCSClient(t)
+	attrs := fetchBucketAttrs(t, client, expectedBucketName(baseName))
+	require.True(t, attrs.Autoclass.Enabled)
 }
