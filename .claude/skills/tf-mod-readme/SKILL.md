@@ -182,6 +182,28 @@ terraform validate
 
 ---
 
+## CI / Workload Identity Federation Setup
+
+The Terratest job authenticates to GCP via [Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation) (service account impersonation). If the job fails with `Permission 'iam.serviceAccounts.getAccessToken' denied`, grant the WIF pool principal the required IAM binding:
+
+```bash
+gcloud iam service-accounts add-iam-policy-binding \
+    "<service-account-email>" \
+    --project="<gcp-project-id>" \
+    --role="roles/iam.workloadIdentityUser" \
+    --member="principalSet://iam.googleapis.com/projects/<project-number>/locations/global/workloadIdentityPools/<pool-name>/attribute.repository/<github-org>/<repository-name>"
+```
+
+The three repository variables required by the CI workflow are:
+
+| Variable | Description |
+| --- | --- |
+| `GCP_PROJECT_ID` | GCP project ID passed as `GOOGLE_CLOUD_PROJECT` to Terratest |
+| `GCP_WORKLOAD_IDENTITY_PROVIDER` | Full WIF provider resource name |
+| `GCP_SERVICE_ACCOUNT` | Service account email to impersonate |
+
+---
+
 ## License
 
 MIT © 2024 Your Organization — see [LICENSE](../../../LICENSE) for full terms.
