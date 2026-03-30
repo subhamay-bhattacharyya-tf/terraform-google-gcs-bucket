@@ -2,9 +2,10 @@
 
 Generate these files in the `/` directory:
 
-**main.tf:**
+**main.tf:** _(delegate to `tf-mod-main` skill)_
 
 - GCS bucket using the `terraform-google-module-template` module (source: `github.com/subhamay-bhattacharyya-tf/terraform-google-module-template`)
+- Follow the GCP provider reference and core authoring patterns from the `tf-mod-main` skill
 
 **locals.tf:**
 
@@ -14,21 +15,18 @@ A map type variable must be created from the input variable and the bucket name 
 <project_code>-<base_name>-<location>-<environment>
 ```
 
-**variables.tf:**
+**variables.tf:** _(delegate to `tf-mod-vars` skill)_
 
-## 1. `environment` _(string)_
+Use the `tf-mod-vars` skill to author this file. Apply the GCP provider reference and validation patterns. The variable schema is:
 
-Represents the deployment environment (e.g., `dev`, `test`, `prod`).
+| Variable | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `environment` | `string` | Yes | One of: `dev`, `test`, `prod` |
+| `project_code` | `string` | Yes | Short identifier for naming standardization |
+| `region` | `string` | No | Default: `us-central1` |
+| `gcs_config` | `object` | Yes | See attribute table below |
 
-## 2. `project_code` _(string)_
-
-Short identifier used for naming standardization.
-
-## 3. `gcs_config` _(object)_
-
-Represents the bucket attribute attribute map.
-
-The object type variable with the GCS Bucket arguments
+`gcs_config` attributes:
 
 | Attribute | Type | Required | Default | Validation |
 | --- | --- | --- | --- | --- |
@@ -37,14 +35,12 @@ The object type variable with the GCS Bucket arguments
 | `force_destroy` | `boolean` | No | `true` | — |
 | `website` | `object` | No | `null` | Should include `main_page_suffix` and `not_found_page` |
 | `cors` | `map(object)` | No | `{}` | Must follow GCS CORS structure |
-| `lifecycle_rule` | `list(map(object))` | No | `[]` | Must follow GCS lifecycle rule schema |
+| `lifecycle_rule` | `list(object)` | No | `[]` | Must follow GCS lifecycle rule schema |
 | `storage_class` | `string` | No | `STANDARD` | One of: `STANDARD`, `MULTI_REGIONAL`, `REGIONAL`, `NEARLINE`, `COLDLINE`, `ARCHIVE` |
-| `autoclass` | `map(object)` | No | `{}` | Enable/disable Autoclass configuration |
-| `versioning` | `map(object)` | No | `{ enabled = true }` | `{ enabled = true/false }` |
+| `autoclass` | `object` | No | `null` | Enable/disable Autoclass configuration |
+| `versioning` | `object` | No | `{ enabled = true }` | `{ enabled = true/false }` |
 | `kms_key_name` | `string` | No | `null` | Must be a valid KMS key resource path |
 | `labels` | `map(string)` | No | `{}` | Key-value pairs for governance |
-
-- Variables for: GCS Configuration (gcs_config) which is an object type variable
 
 **outputs.tf:**
 
@@ -80,17 +76,9 @@ provider "google" {
 }
 ```
 
-**examples/:**
+**examples/:** _(delegate to `tf-mod-examples` skill)_
 
-- `examples/basic/` - with a main.tf that references the root module and passes example values for all variables without website and lifecycle policy. This should be a working example that can be validated separately from the root module.
-
-- `examples/lifecycle/` - with a main.tf that references the root module and passes example values for all variables with lifecycle policy. This should be a working example that can be validated separately from the root module.
-
-- `examples/website/` - with a main.tf that references the root module and passes example values for all variables with website configuration and without lifecycle policy. This should be a working example that can be validated separately from the root module.
-
-- `examples/autoclass/` - with a main.tf that references the root module and passes example values for all variables autoclass. This should be a working example that can be validated separately from the root module.
-
-- `examples/versioning/` - with a main.tf that references the root module and passes example values for all variables with vensioning enabled and without lifecycle policy. This should be a working example that can be validated separately from the root module.
+Use the `tf-mod-examples` skill to scaffold the full example matrix. Each example must be a self-contained, independently validatable Terraform configuration under `examples/<name>/` with its own `main.tf`, `variables.tf`, `terraform.tfvars`, and `README.md`.
 
 **test/:**
 
@@ -114,8 +102,12 @@ Ensure the name is always the repository name.
 
 Ensure in the CONTRIBUTING.md, Reporting Issues must always links to the current repository.
 
-**README.md:**
+**README.md:** _(delegate to `tf-mod-readme` skill)_
 
-- All the badges should always point to the correct repository and the custom endpoint badge shold point to So, least on the financial side, they are creating this finance one finance data product. In the medallion architecture, they have bronze going on iceberg, so that is okay; one cue for you to include icebergs somewhere. This shows that we have some understanding of what Farmer's vision is. `current repository`.json.
+Use the `tf-mod-readme` skill to generate this file. The skill will:
 
-- The README.md should address the warning - `MD060/table-column-style: Table column style [Table pipe is missing space to the left for style "compact"] markdownlint(MD060)`
+- Auto-resolve the repository name from the current git root
+- Check and create the gist badge file if missing
+- Populate all badge URLs pointing to the current repository
+- Produce terraform-docs-compatible inputs/outputs tables
+- Follow markdownlint rules (MD060 table column style)
