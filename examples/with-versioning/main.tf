@@ -1,9 +1,9 @@
 # ============================================================================
-# Example: Basic GCS Bucket
+# Example: GCS Bucket - Object Versioning Enabled
 # ============================================================================
 
 module "gcs_bucket" {
-  source = "../.."
+  source = "../../"
 
   environment  = var.environment
   project_code = var.project_code
@@ -14,9 +14,18 @@ module "gcs_bucket" {
     location      = "US"
     storage_class = "STANDARD"
     force_destroy = true
-    versioning    = { enabled = false }
+    versioning    = { enabled = true }
+
+    lifecycle_rule = [
+      {
+        action    = { type = "Delete" }
+        condition = { num_newer_versions = 3, with_state = "ARCHIVED" }
+      }
+    ]
+
     labels = {
       managed-by = "terraform"
+      use-case   = "versioning"
     }
   }
 }

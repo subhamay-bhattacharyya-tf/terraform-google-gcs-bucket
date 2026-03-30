@@ -206,4 +206,4 @@ The three repository variables required by the CI workflow are:
 
 ## License
 
-MIT © 2024 Your Organization — see [LICENSE](../../../LICENSE) for full terms.
+MIT © 2026 Your Organization — see [LICENSE](../../../LICENSE) for full terms.

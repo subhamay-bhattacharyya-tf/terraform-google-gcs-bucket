@@ -1,9 +1,9 @@
 # ============================================================================
-# Example: Basic GCS Bucket
+# Example: GCS Bucket - Deletion Protection
 # ============================================================================
 
 module "gcs_bucket" {
-  source = "../.."
+  source = "../../"
 
   environment  = var.environment
   project_code = var.project_code
@@ -13,10 +13,12 @@ module "gcs_bucket" {
     base_name     = var.base_name
     location      = "US"
     storage_class = "STANDARD"
-    force_destroy = true
-    versioning    = { enabled = false }
+    force_destroy = false
+    versioning    = { enabled = true }
+
     labels = {
       managed-by = "terraform"
+      use-case   = "deletion-protection"
     }
   }
 }

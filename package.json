@@ -20,7 +20,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/subhamay-bhattacharyya-tf/terraform-google-module-template.git"
+        "url": "git+https://github.com/subhamay-bhattacharyya-tf/terraform-google-gcs-bucket.git"
     },
     "keywords": [
         "terraform",
@@ -30,7 +30,7 @@
         "infrastructure-as-code"
     ],
     "bugs": {
-        "url": "https://github.com/subhamay-bhattacharyya-tf/terraform-google-module-template/issues"
+        "url": "https://github.com/subhamay-bhattacharyya-tf/terraform-google-gcs-bucket/issues"
     },
-    "homepage": "https://github.com/subhamay-bhattacharyya-tf/terraform-google-module-template#readme"
+    "homepage": "https://github.com/subhamay-bhattacharyya-tf/terraform-google-gcs-bucket#readme"
 }

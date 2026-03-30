@@ -1,7 +1,3 @@
-# ============================================================================
-# Example: Basic GCS Bucket - Variables
-# ============================================================================
-
 variable "environment" {
   description = "Deployment environment (dev, test, prod)."
   type        = string
@@ -14,12 +10,6 @@ variable "project_code" {
   default     = "portfolio"
 }
 
-variable "project_id" {
-  description = "GCP project ID."
-  type        = string
-  default     = "portfolio-site"
-}
-
 variable "region" {
   description = "GCP region."
   type        = string
@@ -29,5 +19,5 @@ variable "region" {
 variable "base_name" {
   description = "Base name for the GCS bucket."
   type        = string
-  default     = "basic-bucket"
+  default     = "labels-bucket"
 }

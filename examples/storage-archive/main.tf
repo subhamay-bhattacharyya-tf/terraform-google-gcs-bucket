@@ -1,9 +1,9 @@
 # ============================================================================
-# Example: Basic GCS Bucket
+# Example: GCS Bucket - Deep Archive
 # ============================================================================
 
 module "gcs_bucket" {
-  source = "../.."
+  source = "../../"
 
   environment  = var.environment
   project_code = var.project_code
@@ -12,11 +12,13 @@ module "gcs_bucket" {
   gcs_config = {
     base_name     = var.base_name
     location      = "US"
-    storage_class = "STANDARD"
+    storage_class = "ARCHIVE"
     force_destroy = true
     versioning    = { enabled = false }
+
     labels = {
       managed-by = "terraform"
+      use-case   = "deep-archive"
     }
   }
 }

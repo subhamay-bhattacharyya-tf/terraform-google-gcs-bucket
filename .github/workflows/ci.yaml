@@ -74,6 +74,19 @@ jobs:
           - examples/lifecycle
           - examples/autoclass
           - examples/versioning
+          - examples/storage-nearline
+          - examples/storage-coldline
+          - examples/storage-archive
+          - examples/with-versioning
+          - examples/with-versioning-disabled
+          - examples/with-lifecycle-transition
+          - examples/with-cors
+          - examples/with-website
+          - examples/with-autoclass
+          - examples/with-kms
+          - examples/with-labels
+          - examples/no-force-destroy
+          - examples/complete
     steps:
       - name: Checkout
         uses: actions/checkout@v6

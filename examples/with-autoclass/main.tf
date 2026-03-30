@@ -1,9 +1,9 @@
 # ============================================================================
-# Example: Basic GCS Bucket
+# Example: GCS Bucket - Autoclass Cost Optimisation
 # ============================================================================
 
 module "gcs_bucket" {
-  source = "../.."
+  source = "../../"
 
   environment  = var.environment
   project_code = var.project_code
@@ -15,8 +15,15 @@ module "gcs_bucket" {
     storage_class = "STANDARD"
     force_destroy = true
     versioning    = { enabled = false }
+
+    autoclass = {
+      enabled                = true
+      terminal_storage_class = "NEARLINE"
+    }
+
     labels = {
       managed-by = "terraform"
+      use-case   = "autoclass"
     }
   }
 }

@@ -1,9 +1,9 @@
 # ============================================================================
-# Example: Basic GCS Bucket
+# Example: GCS Bucket - Resource Labelling
 # ============================================================================
 
 module "gcs_bucket" {
-  source = "../.."
+  source = "../../"
 
   environment  = var.environment
   project_code = var.project_code
@@ -15,8 +15,12 @@ module "gcs_bucket" {
     storage_class = "STANDARD"
     force_destroy = true
     versioning    = { enabled = false }
+
     labels = {
-      managed-by = "terraform"
+      managed-by  = "terraform"
+      environment = "dev"
+      team        = "platform"
+      cost-centre = "engineering"
     }
   }
 }
