@@ -5,6 +5,7 @@
 
 resource "google_storage_bucket" "this" {
   name                        = local.bucket_name
+  project                     = var.project_id
   location                    = var.gcs_config.location
   storage_class               = var.gcs_config.storage_class
   force_destroy               = var.gcs_config.force_destroy

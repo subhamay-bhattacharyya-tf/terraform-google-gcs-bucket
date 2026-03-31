@@ -20,6 +20,7 @@ module "gcs_bucket" {
 
   environment  = "prod"
   project_code = "myapp"
+  project_id   = "my-gcp-project-id"
 
   gcs_config = {
     base_name     = "portfolio-bucket"
@@ -53,6 +54,7 @@ module "gcs_bucket" {
 | --- | --- | --- | --- | :---: |
 | `environment` | Deployment environment (`dev`, `test`, `prod`) | `string` | n/a | **yes** |
 | `project_code` | Short identifier for resource naming | `string` | n/a | **yes** |
+| `project_id` | The GCP project ID in which the bucket will be created | `string` | n/a | **yes** |
 | `gcs_config` | GCS bucket configuration object | `object` | n/a | **yes** |
 | `region` | GCP region for the provider | `string` | `"us-central1"` | no |
 

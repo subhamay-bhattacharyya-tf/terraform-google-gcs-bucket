@@ -17,6 +17,11 @@ variable "project_code" {
   type        = string
 }
 
+variable "project_id" {
+  description = "The GCP project ID in which the bucket will be created."
+  type        = string
+}
+
 variable "region" {
   description = "GCP region for the provider."
   type        = string

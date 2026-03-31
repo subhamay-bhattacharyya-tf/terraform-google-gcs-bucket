@@ -7,6 +7,7 @@ module "gcs_bucket" {
 
   environment  = var.environment
   project_code = var.project_code
+  project_id   = var.project_id
   region       = var.region
 
   gcs_config = {
