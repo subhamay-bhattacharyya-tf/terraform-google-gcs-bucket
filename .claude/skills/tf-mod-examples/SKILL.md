@@ -111,7 +111,7 @@ variable "base_name"    { type = string }
 ### `terraform.tfvars` template
 
 ```hcl
-environment  = "dev"
+environment  = "devl"
 project_code = "demo"
 region       = "us-central1"
 base_name    = "<example-slug>"

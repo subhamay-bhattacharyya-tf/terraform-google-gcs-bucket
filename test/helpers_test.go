@@ -17,7 +17,7 @@ import (
 // Shared test constants.
 const (
 	testProjectCode = "tt"
-	testEnvironment = "dev"
+	testEnvironment = "devl"
 	testLocation    = "US"
 	testRegion      = "us-central1"
 )
