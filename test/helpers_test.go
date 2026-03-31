@@ -36,6 +36,7 @@ func rootModuleOptions(t *testing.T, gcsConfig map[string]interface{}) *terrafor
 		Vars: map[string]interface{}{
 			"environment":  testEnvironment,
 			"project_code": testProjectCode,
+			"project_id":   mustEnv(t, "GOOGLE_CLOUD_PROJECT"),
 			"region":       testRegion,
 			"gcs_config":   gcsConfig,
 		},
