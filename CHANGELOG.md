@@ -8,6 +8,7 @@
 - Update environment variable to 'devl' across all examples
 - Update environment variable to 'devl' in examples and tests
 - Add project_id variable for GCP project ID in module and examples
+- Add project_id variable to rootModuleOptions for GCP project ID retrieval
 
 ### 🐛 Bug Fixes
 
@@ -15,6 +16,7 @@
 
 ### 📚 Documentation
 
+- Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
