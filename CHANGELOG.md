@@ -7,6 +7,7 @@
 - Enhance GCS bucket module with additional examples and features
 - Update environment variable to 'devl' across all examples
 - Update environment variable to 'devl' in examples and tests
+- Add project_id variable for GCP project ID in module and examples
 
 ### 🐛 Bug Fixes
 
@@ -14,6 +15,7 @@
 
 ### 📚 Documentation
 
+- Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
