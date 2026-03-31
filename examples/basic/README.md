@@ -8,7 +8,7 @@ Creates a Google Cloud Storage bucket with standard storage class, uniform bucke
 module "gcs_bucket" {
   source = "../.."
 
-  environment  = "dev"
+  environment  = "devl"
   project_code = "portfolio"
 
   gcs_config = {
@@ -20,7 +20,7 @@ module "gcs_bucket" {
 }
 ```
 
-Bucket name follows the pattern `<project_code>-<base_name>-<location>-<environment>`, e.g. `portfolio-portfolio-bucket-us-dev`.
+Bucket name follows the pattern `<project_code>-<base_name>-<location>-<environment>`, e.g. `portfolio-portfolio-bucket-us-devl`.
 
 ## Usage
 
@@ -28,12 +28,12 @@ Bucket name follows the pattern `<project_code>-<base_name>-<location>-<environm
 terraform init
 
 terraform plan \
-  -var='environment=dev' \
+  -var='environment=devl' \
   -var='project_code=myapp' \
   -var='project_id=my-gcp-project'
 
 terraform apply \
-  -var='environment=dev' \
+  -var='environment=devl' \
   -var='project_code=myapp' \
   -var='project_id=my-gcp-project'
 ```
@@ -42,7 +42,7 @@ terraform apply \
 
 | Name         | Description                              | Type   | Default        |
 | ------------ | ---------------------------------------- | ------ | -------------- |
-| environment  | Deployment environment (dev, test, prod) | string | dev            |
+| environment  | Deployment environment (devl, test, prod) | string | devl            |
 | project_code | Short identifier for resource naming     | string | portfolio      |
 | project_id   | GCP project ID                           | string | portfolio-site |
 | region       | GCP region                               | string | us-central1    |
