@@ -6,6 +6,7 @@
 - Add CI / Workload Identity Federation setup instructions to SKILL.md
 - Enhance GCS bucket module with additional examples and features
 - Update environment variable to 'devl' across all examples
+- Update environment variable to 'devl' in examples and tests
 
 ### 🐛 Bug Fixes
 
@@ -13,6 +14,7 @@
 
 ### 📚 Documentation
 
+- Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
