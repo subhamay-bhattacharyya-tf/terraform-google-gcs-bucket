@@ -72,7 +72,7 @@ variable "gcs_config" {
 
     versioning = optional(object({
       enabled = bool
-    }), { enabled = true })
+    }), { enabled = false })
   })
 
   validation {

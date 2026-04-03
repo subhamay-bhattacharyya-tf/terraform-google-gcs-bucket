@@ -38,7 +38,7 @@ Use the `tf-mod-vars` skill to author this file. Apply the GCP provider referenc
 | `lifecycle_rule` | `list(object)` | No | `[]` | Must follow GCS lifecycle rule schema |
 | `storage_class` | `string` | No | `STANDARD` | One of: `STANDARD`, `MULTI_REGIONAL`, `REGIONAL`, `NEARLINE`, `COLDLINE`, `ARCHIVE` |
 | `autoclass` | `object` | No | `null` | Enable/disable Autoclass configuration |
-| `versioning` | `object` | No | `{ enabled = true }` | `{ enabled = true/false }` |
+| `versioning` | `object` | No | `{ enabled = false }` | `{ enabled = true/false }` |
 | `kms_key_name` | `string` | No | `null` | Must be a valid KMS key resource path |
 | `labels` | `map(string)` | No | `{}` | Key-value pairs for governance |
 

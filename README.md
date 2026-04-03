@@ -66,7 +66,7 @@ module "gcs_bucket" {
 | `location` | `string` | `"US"` | no | `US`, `US-CENTRAL1`, `US-EAST1`, `US-EAST4`, `NAM4` |
 | `force_destroy` | `bool` | `true` | no | — |
 | `storage_class` | `string` | `"STANDARD"` | no | `STANDARD`, `MULTI_REGIONAL`, `REGIONAL`, `NEARLINE`, `COLDLINE`, `ARCHIVE` |
-| `versioning` | `object({ enabled = bool })` | `{ enabled = true }` | no | — |
+| `versioning` | `object({ enabled = bool })` | `{ enabled = false }` | no | — |
 | `website` | `object` | `null` | no | `main_page_suffix`, `not_found_page` |
 | `cors` | `map(object)` | `{}` | no | GCS CORS structure |
 | `lifecycle_rule` | `list(object)` | `[]` | no | GCS lifecycle rule schema |
